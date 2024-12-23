@@ -1,0 +1,14 @@
+{
+  "users": {
+  "fake_PME": {
+    "equipment": {
+      "ski": "rossignol",
+      "shoes": "salomon",
+      "helmet": "decathlon",
+      "top": "decathlon",
+      "pants": "decathlon"
+    },
+    "friends": ["fake_friend1", "fake_friend2"]
+  }
+}
+}
