@@ -1,11 +1,15 @@
+import os
+
+import uvicorn
 from fastapi import FastAPI
 
-from fake_data_fetcher import FakeDataFetcher
+from mongo_data_fetcher import MongoDBDataFetcher
 
 app = FastAPI()
 
 # For testing purposes uniquely
-data_fetcher = FakeDataFetcher("./fake_data.json")
+mongo_connection_url = os.getenv("MONGO_CONNECTION_URL")
+data_fetcher = MongoDBDataFetcher(mongo_connection_url, "ski_planner", "users")
 
 @app.get("/")
 async def root():
@@ -18,3 +22,6 @@ async def get_user_friends(username: str):
 @app.get("/users/{username}/equipment")
 async def get_user_equipment(username: str):
     return data_fetcher.get_user_inventory(username)
+
+if __name__ == "__main__":
+    uvicorn.run(app)
