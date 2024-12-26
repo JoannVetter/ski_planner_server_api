@@ -21,7 +21,7 @@ async def get_user_friends(username: str):
 
 @app.get("/users/{username}/equipment")
 async def get_user_equipment(username: str):
-    return data_fetcher.get_user_inventory(username)
+    return data_fetcher.get_user_equipment(username)
 
 if __name__ == "__main__":
     uvicorn.run(app)

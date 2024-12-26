@@ -1,0 +1,25 @@
+services:
+  ski-planner-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ski-database
+    environment:
+      - MONGO_CONNECTION_URL=mongodb://ski-database:27017
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  ski-database:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./init.js:/docker-entrypoint-initdb.d/init.js:ro
+
+volumes:
+  mongo_data:

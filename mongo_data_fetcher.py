@@ -1,6 +1,7 @@
 from typing import Dict, List
 
 import pymongo
+from fastapi import HTTPException
 
 from interface_data_fetcher import DataFetcherInterface
 
@@ -15,14 +16,21 @@ class MongoDBDataFetcher(DataFetcherInterface):
 
   def _get_user_data(self, user: str) -> Dict:
     query = {"username": user}
-    user_data = self.collection.find(query)[0]
+    try:
+      user_data = self.collection.find(query)[0]
+    except IndexError:
+      return {}
     return user_data
 
-  def get_user_inventory(self, user: str) -> Dict:
+  def get_user_equipment(self, user: str) -> Dict:
     user_data = self._get_user_data(user)
-    return user_data.get("inventory", {})
+    if not user_data:
+      raise HTTPException(status_code=404, detail="User not found.")
+    return user_data.get("equipment", {})
 
 
-  def get_user_friends(self, user: str) -> List:
+  def get_user_friends(self, user: str) -> List | Dict:
     user_data = self._get_user_data(user)
+    if not user_data:
+      raise HTTPException(status_code=404, detail="User not found.")
     return user_data.get("friends")

@@ -23,6 +23,6 @@ class FakeDataFetcher(DataFetcherInterface):
         user_data = self._get_user_data(user)
         return user_data.get("friends")
 
-    def get_user_inventory(self, user: str) -> Dict:
+    def get_user_equipment(self, user: str) -> Dict:
         user_data = self._get_user_data(user)
         return user_data.get("equipment")
