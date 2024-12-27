@@ -1,6 +1,7 @@
 from typing import Dict, List
 
 import pymongo
+from pymongo.errors import OperationFailure
 from fastapi import HTTPException
 
 from .interface_data_fetcher import DataFetcherInterface
@@ -19,18 +20,16 @@ class MongoDBDataFetcher(DataFetcherInterface):
     try:
       user_data = self.collection.find(query)[0]
     except IndexError:
-      return {}
+      raise HTTPException(status_code=404, detail="User not found.")
+    except OperationFailure:
+      raise HTTPException(status_code=401, detail="Couldn't connect to the database, wrong credentials.")
     return user_data
 
   def get_user_equipment(self, user: str) -> Dict:
     user_data = self._get_user_data(user)
-    if not user_data:
-      raise HTTPException(status_code=404, detail="User not found.")
     return user_data.get("equipment", {})
 
 
-  def get_user_friends(self, user: str) -> List | Dict:
+  def get_user_friends(self, user: str) -> List:
     user_data = self._get_user_data(user)
-    if not user_data:
-      raise HTTPException(status_code=404, detail="User not found.")
-    return user_data.get("friends")
+    return user_data.get("friends", [])
