@@ -3,7 +3,7 @@ import os
 import uvicorn
 from fastapi import FastAPI
 
-from mongo_data_fetcher import MongoDBDataFetcher
+from data_fetch.mongo_data_fetcher import MongoDBDataFetcher
 
 app = FastAPI()
 

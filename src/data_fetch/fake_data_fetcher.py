@@ -1,7 +1,7 @@
 import json
 from typing import List, Dict
 
-from interface_data_fetcher import DataFetcherInterface
+from .interface_data_fetcher import DataFetcherInterface
 
 
 class FakeDataFetcher(DataFetcherInterface):

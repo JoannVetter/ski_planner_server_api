@@ -3,7 +3,7 @@ from typing import Dict, List
 import pymongo
 from fastapi import HTTPException
 
-from interface_data_fetcher import DataFetcherInterface
+from .interface_data_fetcher import DataFetcherInterface
 
 
 class MongoDBDataFetcher(DataFetcherInterface):

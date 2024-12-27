@@ -1,9 +1,8 @@
 services:
   ski-planner-api:
     build:
-      context: .
+      context: src
       dockerfile: Dockerfile
-    container_name: fastapi_app
     ports:
       - "8000:8000"
     depends_on:
@@ -14,7 +13,6 @@ services:
 
   ski-database:
     image: mongo:6
-    container_name: mongodb
     ports:
       - "27017:27017"
     volumes:
