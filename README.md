@@ -28,3 +28,6 @@ If you're not familiar with docker, the way to do this is by running :
 
 ``docker volume rm <the_mongo_db_volume>``
 
+If you get an issue with the database authentication, make sure the format
+of the MONGO_CONNECTION_URI is mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@ski-database:27017/ski_planner?authSource=admin
+
