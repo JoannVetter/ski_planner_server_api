@@ -15,7 +15,7 @@ class MongoDBDataFetcher(DataFetcherInterface):
     self.collection = self.db[collection_name]
 
 
-  def _get_user_data(self, user: str) -> Dict:
+  def get_user_data(self, user: str) -> Dict:
     query = {"username": user}
     try:
       user_data = self.collection.find(query)[0]
@@ -25,11 +25,12 @@ class MongoDBDataFetcher(DataFetcherInterface):
       raise HTTPException(status_code=401, detail="Couldn't connect to the database, wrong credentials.")
     return user_data
 
+
   def get_user_equipment(self, user: str) -> Dict:
-    user_data = self._get_user_data(user)
+    user_data = self.get_user_data(user)
     return user_data.get("equipment", {})
 
 
   def get_user_friends(self, user: str) -> List:
-    user_data = self._get_user_data(user)
+    user_data = self.get_user_data(user)
     return user_data.get("friends", [])
