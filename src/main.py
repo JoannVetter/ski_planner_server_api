@@ -18,7 +18,6 @@ mongo_connection_url = os.getenv("MONGO_CONNECTION_URL")
 data_fetcher = MongoDBDataFetcher(mongo_connection_url, "ski_planner", "users")
 
 
-
 @app.get("/users/{username}/friends")
 async def get_user_friends(username: str, current_user: Annotated[PowerUser, Depends(get_current_active_user)]):
     return data_fetcher.get_user_friends(username)

@@ -16,6 +16,3 @@ class PowerUser(BaseModel):
 
 class PowerUserInDB(PowerUser):
     hashed_password: str
-
-
-
