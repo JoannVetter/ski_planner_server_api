@@ -13,9 +13,11 @@ router = APIRouter(
     prefix="/users",
     tags=["users"],
     dependencies=[Depends(get_current_active_user)],
-    responses={404: {"description": "User not found."},
+    responses={200: {"description": "Operation successful"},
+               401: {"description": "Couldn't connect to the database, wrong credentials."},
                403: {"description": "Operation not authorized."},
-               200: {"description": "Operation successful"}},
+               404: {"description": "User not found."},
+               }
 )
 
 
