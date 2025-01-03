@@ -24,10 +24,13 @@ class MongoDBDataFetcher(DataFetcherInterface):
             raise HTTPException(status_code=401, detail="Couldn't connect to the database, wrong credentials.")
         return user_data
 
+    def get_user_specific(self, user:str, specific: str, return_type: type):
+        specific_data = self.get_user_data(user).get(specific)
+        return specific_data if specific_data is not None else return_type()
+
     def get_user_equipment(self, user: str) -> Dict:
-        user_data = self.get_user_data(user)
-        return user_data.get("equipment", {})
+        return self.get_user_specific(user, "equipment", return_type=Dict)
 
     def get_user_friends(self, user: str) -> List:
-        user_data = self.get_user_data(user)
-        return user_data.get("friends", [])
+        return self.get_user_specific(user, "friends", return_type=List)
+
