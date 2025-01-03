@@ -6,26 +6,15 @@ import uvicorn
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from data_fetch.mongo_data_fetcher import MongoDBDataFetcher
-from auth_utils import authenticate_user, get_current_active_user, create_access_token
-from models import Token, PowerUser
+from src.auth_utils import authenticate_user, get_current_active_user, create_access_token
+from src.models import Token
+from src.routers import power_users, users
 
 app = FastAPI()
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# TODO : Add this as a docker secret instead for safer option
-mongo_connection_url = os.getenv("MONGO_CONNECTION_URL")
-data_fetcher = MongoDBDataFetcher(mongo_connection_url, "ski_planner", "users")
-
-
-@app.get("/users/{username}/friends")
-async def get_user_friends(username: str, current_user: Annotated[PowerUser, Depends(get_current_active_user)]):
-    return data_fetcher.get_user_friends(username)
-
-
-@app.get("/users/{username}/equipment")
-async def get_user_equipment(username: str, current_user: Annotated[PowerUser, Depends(get_current_active_user)]):
-    return data_fetcher.get_user_equipment(username)
+app.include_router(power_users.router)
+app.include_router(users.router)
 
 
 @app.post("/token")

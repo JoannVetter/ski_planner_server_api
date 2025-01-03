@@ -8,8 +8,8 @@ from jwt import InvalidTokenError
 from passlib.context import CryptContext
 from fastapi import status, HTTPException, Depends
 
-from data_fetch.mongo_data_fetcher import MongoDBDataFetcher
-from models import PowerUserInDB, TokenData, PowerUser
+from src.data_fetch.mongo_data_fetcher import MongoDBDataFetcher
+from src.models import PowerUserInDB, TokenData, PowerUser
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 # to get a string like this run:
